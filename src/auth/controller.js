@@ -15,7 +15,7 @@ const logIn = async (req, res) => {
 
         const user = data.rows[0];
         const accessToken = generateAccessToken(user);
-        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { noTimestamp: true });
 
         await pool.query(queries.logUser, [true, user.user_id], async (err, data) => {
             if(err) return res.sendStatus(400);

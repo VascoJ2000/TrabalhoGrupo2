@@ -10,6 +10,6 @@ router.get('/info', (req, res) => {
 
 router.post('/login', controller.logIn);
 router.delete('/logout', authMW.verifyRefresh, controller.logOut);
-router.post('/token', authMW.verifyRefresh, controller.refreshAccess);
+router.get('/token', authMW.verifyRefresh, controller.refreshAccess);
 
 module.exports = router;

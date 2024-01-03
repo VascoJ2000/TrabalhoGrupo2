@@ -1,3 +1,5 @@
+window.onload = getToken();
+
 function show(section) {
     resetUpdate();
     document.getElementById('Consult').style.display = "none";
@@ -127,6 +129,22 @@ async function delLogout(){
     });
 }
 
+async function getToken(){
+    const refreshToken = localStorage.getItem('refreshToken');
+    if(!refreshToken) return console.log('No token');
+    fetch('http://localhost:4000/api/auth/token', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${refreshToken}` }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        localStorage.setItem('accessToken', data.accessToken);
+        loggedIn();
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 // User
 
 async function postSignup(){
@@ -216,7 +234,6 @@ async function delUser(){
         console.error('Error:', error);
     });
 }
-
 
 
 // Income

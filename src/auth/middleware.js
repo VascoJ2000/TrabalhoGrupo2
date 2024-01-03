@@ -10,7 +10,7 @@ const verifyAccess = async (req, res, next) => {
     if(!accessToken) return res.status(403).send("No Token provided!");
 
     await jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, data) => {
-        if(err) return res.sendStatus(403);
+        if(err) return res.status(403).send({ message: err.message});
         req.token = data;
         await pool.query(queries.getUser, [req.token.email], async (err, data) => {
             if(err) return res.sendStatus(400);
